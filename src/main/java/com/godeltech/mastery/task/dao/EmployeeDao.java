@@ -1,26 +1,32 @@
 package com.godeltech.mastery.task.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.NestedRuntimeException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-//import org.springframework.stereotype.Component;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+
+@Repository
 public class EmployeeDao {
 
-    public static final String TABLE_NAME = "employee";
+    //public static final String TABLE_NAME = "employee";
 
     private static final String EMPLOYEE_ID = "employeeId";
     private static final String FIRST_NAME = "firstName";
@@ -30,34 +36,47 @@ public class EmployeeDao {
     private static final String GENDER = "gender";
     private static final String DATE_OF_BIRTH = "dateOfBirth";
 
-    public static final String SQL_FIND_ALL = "SELECT * FROM " + TABLE_NAME;
-    public static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME +
-            " (" + FIRST_NAME + ", " + LAST_NAME + "," + DEPARTMENT_ID + "," + JOB_TITLE + "," + GENDER + "," + DATE_OF_BIRTH + ") "
-            + "VALUES (?, ?, ?, ?, ?::gender, ?)";
-    public static final String SQL_UPDATE = "UPDATE " + TABLE_NAME
-            + " SET " + FIRST_NAME + " = ?" + LAST_NAME + " = ?" + DEPARTMENT_ID + " = ?" + JOB_TITLE + " = ?" + GENDER + " = ?" + DATE_OF_BIRTH + " = ?"
-            + " WHERE " + EMPLOYEE_ID + " = ?";
-    public static final String SQL_DELETE = "DELETE FROM " + TABLE_NAME + " WHERE " + EMPLOYEE_ID + " = ?";
+    @Value("${EmployeeDaoSql.findAll}")
+    private String findAllSql;
+    @Value("${EmployeeDaoSql.getEmployeeById}")
+    private String getEmployeeByIdSql;
+    @Value("${EmployeeDaoSql.addEmployee}")
+    private String addEmployeeSql;
+    @Value("${EmployeeDaoSql.updateEmployee}")
+    private String updateEmployeeSql;
+    @Value("${EmployeeDaoSql.deleteEmployee}")
+    private String deleteEmployeeSql;
 
-
-    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Employee> findAll() {
-        return namedParameterJdbcTemplate.query(SQL_FIND_ALL, new RowMapper<Employee>() {
-            public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Employee employee = new Employee();
-                employee.setEmployeeId(rs.getLong(EMPLOYEE_ID));
-                employee.setFirstName(rs.getString(FIRST_NAME));
-                employee.setLastName(rs.getString(LAST_NAME));
-                employee.setDepartmentId(rs.getInt(DEPARTMENT_ID));
-                employee.setJobTitle(rs.getString(JOB_TITLE));
-                employee.setGender(Gender.valueOf(rs.getString(GENDER)));
-                employee.setDateOfBirth(rs.getString(DATE_OF_BIRTH));
-                return employee;
-            }
-        });
+    @Autowired
+    public EmployeeDao(DataSource dataSource) {
+       namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
+
+    private RowMapper<Employee> employeeRowMapper =(resultSet,i)->{
+        return new Employee(
+                resultSet.getLong(EMPLOYEE_ID),
+                resultSet.getString(FIRST_NAME),
+                resultSet.getString(LAST_NAME),
+                resultSet.getInt(DEPARTMENT_ID),
+                resultSet.getString(JOB_TITLE),
+                Gender.valueOf(resultSet.getString(GENDER)),
+                resultSet.getDate(DATE_OF_BIRTH)
+                );
+    };
+
+    public List<Employee> findAll() throws DataAccessException{
+        return namedParameterJdbcTemplate.query(findAllSql, employeeRowMapper);
+
+    }
+
+   public Employee getEmployeeById(Long employeeId) throws DataAccessException {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource(EMPLOYEE_ID, employeeId);
+
+        return namedParameterJdbcTemplate.queryForObject(getEmployeeByIdSql, namedParameters, employeeRowMapper);
+    }
+
     public Long insertEmployee(Employee employee) throws DataAccessException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
@@ -69,7 +88,7 @@ public class EmployeeDao {
         namedParameters.addValue(GENDER, employee.getGender());
         namedParameters.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
 
-        namedParameterJdbcTemplate.update(SQL_INSERT, namedParameters, keyHolder);
+        namedParameterJdbcTemplate.update(addEmployeeSql, namedParameters, keyHolder);
 
         return keyHolder.getKey().longValue();
     }
@@ -86,12 +105,12 @@ public class EmployeeDao {
         params.put(DATE_OF_BIRTH, employee.getDateOfBirth());
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameterJdbcTemplate.update(SQL_UPDATE, namedParameters);
+        namedParameterJdbcTemplate.update(updateEmployeeSql, namedParameters);
     }
 
     public Integer deleteEmployee(Long employeeId) throws DataAccessException {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource(EMPLOYEE_ID,employeeId);
-        return namedParameterJdbcTemplate.update(SQL_DELETE, namedParameters);
+        return namedParameterJdbcTemplate.update(deleteEmployeeSql, namedParameters);
     }
 
 
