@@ -1,6 +1,7 @@
 package com.godeltech.mastery.task.dao;
 
 
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,13 +57,13 @@ public class EmployeeDao {
 
     private RowMapper<Employee> employeeRowMapper =(resultSet,i)->{
         return new Employee(
-                resultSet.getLong(EMPLOYEE_ID),
-                resultSet.getString(FIRST_NAME),
-                resultSet.getString(LAST_NAME),
-                resultSet.getInt(DEPARTMENT_ID),
-                resultSet.getString(JOB_TITLE),
-                Gender.valueOf(resultSet.getString(GENDER)),
-                resultSet.getDate(DATE_OF_BIRTH)
+                resultSet.getLong("employee_id"),
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                resultSet.getInt("department_id"),
+                resultSet.getString("job_title"),
+                Gender.valueOf(resultSet.getString("gender")),
+                resultSet.getDate("date_of_birth")
                 );
     };
 
@@ -80,7 +81,7 @@ public class EmployeeDao {
     public Long insertEmployee(Employee employee) throws DataAccessException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-
+        namedParameters.registerSqlType("gender", Types.OTHER);
         namedParameters.addValue(FIRST_NAME, employee.getFirstName());
         namedParameters.addValue(LAST_NAME, employee.getLastName());
         namedParameters.addValue(DEPARTMENT_ID, employee.getDepartmentId());
@@ -88,7 +89,7 @@ public class EmployeeDao {
         namedParameters.addValue(GENDER, employee.getGender());
         namedParameters.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
 
-        namedParameterJdbcTemplate.update(addEmployeeSql, namedParameters, keyHolder);
+        namedParameterJdbcTemplate.update(addEmployeeSql, namedParameters, keyHolder,new String[]{"employee_id"});
 
         return keyHolder.getKey().longValue();
     }
