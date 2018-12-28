@@ -2,13 +2,7 @@ package com.godeltech.mastery.task.dao;
 
 
 import java.sql.Types;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.NestedRuntimeException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +20,6 @@ import javax.sql.DataSource;
 
 @Repository
 public class EmployeeDao {
-
-    //public static final String TABLE_NAME = "employee";
 
     private static final String EMPLOYEE_ID = "employeeId";
     private static final String FIRST_NAME = "firstName";
@@ -80,33 +72,33 @@ public class EmployeeDao {
 
     public Long insertEmployee(Employee employee) throws DataAccessException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameters.registerSqlType("gender", Types.OTHER);
-        namedParameters.addValue(FIRST_NAME, employee.getFirstName());
-        namedParameters.addValue(LAST_NAME, employee.getLastName());
-        namedParameters.addValue(DEPARTMENT_ID, employee.getDepartmentId());
-        namedParameters.addValue(JOB_TITLE, employee.getJobTitle());
-        namedParameters.addValue(GENDER, employee.getGender());
-        namedParameters.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.registerSqlType("gender", Types.OTHER);
+        params.addValue(FIRST_NAME, employee.getFirstName());
+        params.addValue(LAST_NAME, employee.getLastName());
+        params.addValue(DEPARTMENT_ID, employee.getDepartmentId());
+        params.addValue(JOB_TITLE, employee.getJobTitle());
+        params.addValue(GENDER, employee.getGender());
+        params.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
 
-        namedParameterJdbcTemplate.update(addEmployeeSql, namedParameters, keyHolder,new String[]{"employee_id"});
+        namedParameterJdbcTemplate.update(addEmployeeSql, params, keyHolder,new String[]{"employee_id"});
 
         return keyHolder.getKey().longValue();
     }
 
 
     public void updateEmployee(Employee employee) throws DataAccessException {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put(EMPLOYEE_ID, employee.getEmployeeId());
-        params.put(FIRST_NAME, employee.getFirstName());
-        params.put(LAST_NAME, employee.getLastName());
-        params.put(DEPARTMENT_ID, employee.getDepartmentId());
-        params.put(JOB_TITLE, employee.getJobTitle());
-        params.put(GENDER, employee.getGender());
-        params.put(DATE_OF_BIRTH, employee.getDateOfBirth());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.registerSqlType("gender", Types.OTHER);
+        params.addValue(EMPLOYEE_ID, employee.getEmployeeId());
+        params.addValue(FIRST_NAME, employee.getFirstName());
+        params.addValue(LAST_NAME, employee.getLastName());
+        params.addValue(DEPARTMENT_ID, employee.getDepartmentId());
+        params.addValue(JOB_TITLE, employee.getJobTitle());
+        params.addValue(GENDER, employee.getGender());
+        params.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
 
-        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameterJdbcTemplate.update(updateEmployeeSql, namedParameters);
+        namedParameterJdbcTemplate.update(updateEmployeeSql, params);
     }
 
     public Integer deleteEmployee(Long employeeId) throws DataAccessException {

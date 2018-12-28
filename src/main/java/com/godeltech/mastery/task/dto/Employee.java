@@ -110,7 +110,7 @@ public class Employee {
     }
 
     public String toString() {
-        return "Employee[id=" + this.employeeId + ", date=" + this.dateOfBirth + "]";
+        return "Employee[id=" + this.employeeId + ", name=" + this.firstName + "]";
     }
 
 }
