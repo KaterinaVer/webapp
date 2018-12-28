@@ -34,6 +34,11 @@ public class EmployeeDaoTest {
         Assert.assertTrue(employee.size() == 2);
 
     }
+    @Test
+    public void getByIdTest(){
+        Employee employeeFromDb = employeeDao.getEmployeeById((long)1);
+        assertEquals(employeeFromDb.getFirstName(), "Archie");
+    }
 
     @Test
     public void deleteTest(){
