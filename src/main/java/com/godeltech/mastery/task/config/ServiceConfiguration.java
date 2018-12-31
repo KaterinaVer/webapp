@@ -1,11 +1,11 @@
 package com.godeltech.mastery.task.config;
 
 import com.godeltech.mastery.task.dao.EmployeeDao;
+import com.godeltech.mastery.task.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -18,11 +18,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySources({
-        @PropertySource("database.properties"),
-        @PropertySource("sql.properties")
-})
-public class DaoConfiguration {
+@PropertySource("database.properties")
+public class ServiceConfiguration {
 
     @Value("${database.driverClassName}")
     String driverClassName;
@@ -60,6 +57,9 @@ public class DaoConfiguration {
     public EmployeeDao getEmployeeDao() {
         return new EmployeeDao(getDataSource());
     }
+
+    @Bean
+    public EmployeeService getEmployeeService(){
+        return new EmployeeService(getEmployeeDao());
+    }
 }
-
-

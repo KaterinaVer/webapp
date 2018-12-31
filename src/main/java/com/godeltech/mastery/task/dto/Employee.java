@@ -1,8 +1,6 @@
 package com.godeltech.mastery.task.dto;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class Employee {
 

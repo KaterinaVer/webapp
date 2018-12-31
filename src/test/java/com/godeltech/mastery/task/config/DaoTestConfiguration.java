@@ -23,7 +23,6 @@ import java.io.IOException;
 })
 public class DaoTestConfiguration {
 
-
    @Bean
    public DataSource getDataSource() throws IOException{
        Resource createScript = new ClassPathResource("create-table.sql");
@@ -40,10 +39,12 @@ public class DaoTestConfiguration {
     public EmbeddedPostgres embeddedPostgres() throws IOException {
         return EmbeddedPostgres.start();
     }
+
     @Bean
     public PlatformTransactionManager txManager() throws IOException{
         return new DataSourceTransactionManager(getDataSource());
     }
+
     @Bean
     public EmployeeDao getEmployeeDao() throws IOException {
         return new EmployeeDao(getDataSource());

@@ -72,33 +72,33 @@ public class EmployeeDao {
 
     public Long insertEmployee(Employee employee) throws DataAccessException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.registerSqlType("gender", Types.OTHER);
-        params.addValue(FIRST_NAME, employee.getFirstName());
-        params.addValue(LAST_NAME, employee.getLastName());
-        params.addValue(DEPARTMENT_ID, employee.getDepartmentId());
-        params.addValue(JOB_TITLE, employee.getJobTitle());
-        params.addValue(GENDER, employee.getGender());
-        params.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.registerSqlType("gender", Types.OTHER);
+        namedParameters.addValue(FIRST_NAME, employee.getFirstName());
+        namedParameters.addValue(LAST_NAME, employee.getLastName());
+        namedParameters.addValue(DEPARTMENT_ID, employee.getDepartmentId());
+        namedParameters.addValue(JOB_TITLE, employee.getJobTitle());
+        namedParameters.addValue(GENDER, employee.getGender());
+        namedParameters.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
 
-        namedParameterJdbcTemplate.update(addEmployeeSql, params, keyHolder,new String[]{"employee_id"});
+        namedParameterJdbcTemplate.update(addEmployeeSql, namedParameters, keyHolder,new String[]{"employee_id"});
 
         return keyHolder.getKey().longValue();
     }
 
 
     public void updateEmployee(Employee employee) throws DataAccessException {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.registerSqlType("gender", Types.OTHER);
-        params.addValue(EMPLOYEE_ID, employee.getEmployeeId());
-        params.addValue(FIRST_NAME, employee.getFirstName());
-        params.addValue(LAST_NAME, employee.getLastName());
-        params.addValue(DEPARTMENT_ID, employee.getDepartmentId());
-        params.addValue(JOB_TITLE, employee.getJobTitle());
-        params.addValue(GENDER, employee.getGender());
-        params.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.registerSqlType("gender", Types.OTHER);
+        namedParameters.addValue(EMPLOYEE_ID, employee.getEmployeeId());
+        namedParameters.addValue(FIRST_NAME, employee.getFirstName());
+        namedParameters.addValue(LAST_NAME, employee.getLastName());
+        namedParameters.addValue(DEPARTMENT_ID, employee.getDepartmentId());
+        namedParameters.addValue(JOB_TITLE, employee.getJobTitle());
+        namedParameters.addValue(GENDER, employee.getGender());
+        namedParameters.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
 
-        namedParameterJdbcTemplate.update(updateEmployeeSql, params);
+        namedParameterJdbcTemplate.update(updateEmployeeSql, namedParameters);
     }
 
     public Integer deleteEmployee(Long employeeId) throws DataAccessException {
