@@ -1,69 +1,68 @@
-package com.godeltech.mastery.task.dao;
+package com.godeltech.mastery.task.service;
 
-import com.godeltech.mastery.task.config.DaoTestConfiguration;
+import com.godeltech.mastery.task.config.ServiceTestConfiguration;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import org.junit.Test;
-import org.junit.Assert;
-import org.junit.runner.RunWith;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoTestConfiguration.class)
+@ContextConfiguration(classes = ServiceTestConfiguration.class)
 @Transactional
-public class EmployeeDaoTest {
+public class EmployeeServiceTest {
 
     @Autowired
-    EmployeeDao employeeDao;
+    EmployeeService employeeService;
 
     @Test
-    public void findAllTest() throws Exception {
-        List<Employee> employee = employeeDao.findAll();
+    public void getEmployeesTest(){
+        List<Employee> employee = employeeService.getEmployees();
         Assert.assertTrue(employee.size() == 2);
     }
 
     @Test
     public void getByIdTest(){
-        Employee employeeFromDb = employeeDao.getEmployeeById((long)1);
+        Employee employeeFromDb = employeeService.getEmployeeById((long)1);
         assertEquals(employeeFromDb.getFirstName(), "Archie");
     }
 
     @Test
     public void deleteTest(){
-        Long id= employeeDao.deleteEmployee((long)1);
-        List<Employee> employee = employeeDao.findAll();
+        Long id= employeeService.deleteEmployee((long)1);
+        List<Employee> employee = employeeService.getEmployees();
         Assert.assertTrue(employee.size() == 1);
     }
 
     @Test
-    public void insertTest() throws ParseException{
+    public void insertTest() throws ParseException {
         String format = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         Date dateOfBirth = simpleDateFormat.parse("1980-10-12");
         Employee employee= new Employee("Genry","Mitchel",
                 5,"Manager", Gender.MALE, dateOfBirth);
-        Long id = employeeDao.insertEmployee(employee);
-        Employee employeeFromDb = employeeDao.getEmployeeById(id);
+        Long id = employeeService.addEmployee(employee);
+        Employee employeeFromDb = employeeService.getEmployeeById(id);
         assertEquals(employeeFromDb.getFirstName(), "Genry");
     }
 
     @Test
     public void updateTest(){
-        Employee employee = employeeDao.getEmployeeById((long)1);
+        Employee employee = employeeService.getEmployeeById((long)1);
         employee.setFirstName("Dan");
-        employeeDao.updateEmployee(employee);
-        employee = employeeDao.getEmployeeById((long)1);
+        employeeService.updateEmployee(employee);
+        employee = employeeService.getEmployeeById((long)1);
         Assert.assertTrue(employee.getDepartmentId()==23);
         assertEquals(employee.getFirstName(), "Dan");
     }

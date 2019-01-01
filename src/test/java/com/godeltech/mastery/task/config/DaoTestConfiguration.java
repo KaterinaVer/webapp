@@ -22,18 +22,17 @@ import java.io.IOException;
         @PropertySource("sql.properties")
 })
 public class DaoTestConfiguration {
+    @Bean
+    public DataSource getDataSource() throws IOException{
+        Resource createScript = new ClassPathResource("create-table.sql");
+        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(createScript);
+        DatabasePopulatorUtils.execute(databasePopulator, embeddedPostgres().getPostgresDatabase());
 
-   @Bean
-   public DataSource getDataSource() throws IOException{
-       Resource createScript = new ClassPathResource("create-table.sql");
-       DatabasePopulator databasePopulator = new ResourceDatabasePopulator(createScript);
-       DatabasePopulatorUtils.execute(databasePopulator, embeddedPostgres().getPostgresDatabase());
-
-       Resource insertScript = new ClassPathResource("insert-values.sql");
-       databasePopulator = new ResourceDatabasePopulator(insertScript);
-       DatabasePopulatorUtils.execute(databasePopulator, embeddedPostgres().getPostgresDatabase());
-       return embeddedPostgres().getPostgresDatabase();
-   }
+        Resource insertScript = new ClassPathResource("insert-values.sql");
+        databasePopulator = new ResourceDatabasePopulator(insertScript);
+        DatabasePopulatorUtils.execute(databasePopulator, embeddedPostgres().getPostgresDatabase());
+        return embeddedPostgres().getPostgresDatabase();
+    }
 
     @Bean
     public EmbeddedPostgres embeddedPostgres() throws IOException {
