@@ -49,7 +49,7 @@ public class EmployeeService {
         employeeDao.updateEmployee(employee);
     }
 
-    public Integer deleteEmployee(Long employeeId){
+    public Long deleteEmployee(Long employeeId){
         if(employeeId<=0) throw new OperationFailedException("Employee's ID should be more than 0");
         return employeeDao.deleteEmployee(employeeId);
     }

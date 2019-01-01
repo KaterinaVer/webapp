@@ -101,9 +101,9 @@ public class EmployeeDao {
         namedParameterJdbcTemplate.update(updateEmployeeSql, namedParameters);
     }
 
-    public Integer deleteEmployee(Long employeeId) throws DataAccessException {
+    public Long deleteEmployee(Long employeeId) throws DataAccessException {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource(EMPLOYEE_ID,employeeId);
-        return namedParameterJdbcTemplate.update(deleteEmployeeSql, namedParameters);
+        return (long)namedParameterJdbcTemplate.update(deleteEmployeeSql, namedParameters);
     }
 
 

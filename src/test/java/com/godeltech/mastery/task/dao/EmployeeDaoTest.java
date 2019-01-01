@@ -36,7 +36,7 @@ public class EmployeeDaoTest {
 
     @Test
     public void deleteTest(){
-        Integer id= employeeDao.deleteEmployee((long)1);
+        Long id= employeeDao.deleteEmployee((long)1);
         List<Employee> employee = employeeDao.findAll();
         Assert.assertTrue(employee.size() == 1);
     }

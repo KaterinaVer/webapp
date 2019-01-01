@@ -14,22 +14,18 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.GregorianCalendar;
-import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ServiceTestConfiguration.class)
-public class EmployeeServiceTest {
+public class EmployeeMockServiceTest {
 
-    @Autowired
     @Mock
     private EmployeeDao daoMock;
 
-    @Autowired
     @InjectMocks
     private EmployeeService service;
 
@@ -53,13 +49,30 @@ public class EmployeeServiceTest {
         assertEquals(id, Long.valueOf(3));
     }
 
-    /*@Test(expected = OperationFailedException.class)
-    public void updateEmployeeTest() {
+    @Test(expected = OperationFailedException.class)
+    public void updateNonexistentEmployeeTest() {
         Employee employee= new Employee((long)5,"Genry","Mitchel",
                 5,"Manager", Gender.MALE, new GregorianCalendar(1980, 10-1, 12).getTime());
-        doNothing().when(daoMock.updateEmployee(employee)).thenThrow(new OperationFailedException("Illegal Employee's ID"));
-        Long id = service.addEmployee(employee);
-        assertEquals(id, Long.valueOf(3));
-    }*/
+        doThrow(new OperationFailedException("Illegal Employee's ID")).when(daoMock).updateEmployee(employee);
+        service.updateEmployee(employee);
+    }
 
+    @Test(expected = OperationFailedException.class)
+    public void getNonexistentEmployeesTest(){
+        doThrow(new OperationFailedException("Employees don't exist")).when(daoMock).findAll();
+        service.getEmployees();
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void deleteNonexistentEmployeeTest() {
+        when(daoMock.deleteEmployee((long)-1)).thenThrow(new OperationFailedException("Illegal Employee's ID"));
+        service.deleteEmployee((long)-1);
+    }
+
+    @Test
+    public void deleteEmployeeTest() {
+        when(daoMock.deleteEmployee(anyLong())).thenReturn((long)2);
+        Long id = service.deleteEmployee((long)2);
+        assertEquals(id, Long.valueOf(2));
+    }
 }
