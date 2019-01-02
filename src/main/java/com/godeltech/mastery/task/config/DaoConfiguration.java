@@ -24,22 +24,13 @@ import javax.sql.DataSource;
 })
 public class DaoConfiguration {
 
-    @Value("${database.driverClassName}")
-    String driverClassName;
-    @Value("${database.url}")
-    String url;
-    @Value("${database.username}")
-    String username;
-    @Value("${database.password}")
-    String password;
-
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
+        dataSource.setDriverClassName("${database.driverClassName}");
+        dataSource.setUrl("${database.url}");
+        dataSource.setUsername("${database.username}");
+        dataSource.setPassword("${database.password}");
 
         Resource createScript = new ClassPathResource("create-table.sql");
         DatabasePopulator databasePopulator = new ResourceDatabasePopulator(createScript);
@@ -56,10 +47,6 @@ public class DaoConfiguration {
         return new DataSourceTransactionManager(getDataSource());
     }
 
-    @Bean
-    public EmployeeDao getEmployeeDao() {
-        return new EmployeeDao(getDataSource());
-    }
 }
 
 

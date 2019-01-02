@@ -21,7 +21,9 @@ import java.io.IOException;
         @PropertySource("database.properties"),
         @PropertySource("sql.properties")
 })
+@ComponentScan("com.godeltech.mastery.task.dao")
 public class DaoTestConfiguration {
+
     @Bean
     public DataSource getDataSource() throws IOException{
         Resource createScript = new ClassPathResource("create-table.sql");
@@ -44,8 +46,4 @@ public class DaoTestConfiguration {
         return new DataSourceTransactionManager(getDataSource());
     }
 
-    @Bean
-    public EmployeeDao getEmployeeDao() throws IOException {
-        return new EmployeeDao(getDataSource());
-    }
 }

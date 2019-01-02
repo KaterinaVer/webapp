@@ -1,6 +1,5 @@
 package com.godeltech.mastery.task.dao;
 
-
 import java.sql.Types;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class EmployeeDao {
                 resultSet.getInt("department_id"),
                 resultSet.getString("job_title"),
                 Gender.valueOf(resultSet.getString("gender")),
-                resultSet.getDate("date_of_birth")
+                resultSet.getDate("date_of_birth").toLocalDate()
                 );
     };
 
@@ -64,15 +63,15 @@ public class EmployeeDao {
 
     }
 
-   public Employee getEmployeeById(Long employeeId) throws DataAccessException {
-        MapSqlParameterSource namedParameters = new MapSqlParameterSource(EMPLOYEE_ID, employeeId);
-
-        return namedParameterJdbcTemplate.queryForObject(getEmployeeByIdSql, namedParameters, employeeRowMapper);
+    public Employee getEmployeeById(Long employeeId) throws DataAccessException {
+        return namedParameterJdbcTemplate
+                .queryForObject(getEmployeeByIdSql, new MapSqlParameterSource(EMPLOYEE_ID, employeeId), employeeRowMapper);
     }
 
     public Long insertEmployee(Employee employee) throws DataAccessException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+
         namedParameters.registerSqlType("gender", Types.OTHER);
         namedParameters.addValue(FIRST_NAME, employee.getFirstName());
         namedParameters.addValue(LAST_NAME, employee.getLastName());
@@ -81,7 +80,8 @@ public class EmployeeDao {
         namedParameters.addValue(GENDER, employee.getGender());
         namedParameters.addValue(DATE_OF_BIRTH, employee.getDateOfBirth());
 
-        namedParameterJdbcTemplate.update(addEmployeeSql, namedParameters, keyHolder,new String[]{"employee_id"});
+        namedParameterJdbcTemplate
+                .update(addEmployeeSql, namedParameters, keyHolder,new String[]{"employee_id"});
 
         return keyHolder.getKey().longValue();
     }
@@ -102,9 +102,7 @@ public class EmployeeDao {
     }
 
     public Long deleteEmployee(Long employeeId) throws DataAccessException {
-        MapSqlParameterSource namedParameters = new MapSqlParameterSource(EMPLOYEE_ID,employeeId);
-        return (long)namedParameterJdbcTemplate.update(deleteEmployeeSql, namedParameters);
+        return (long)namedParameterJdbcTemplate
+                .update(deleteEmployeeSql, new MapSqlParameterSource(EMPLOYEE_ID,employeeId));
     }
-
-
 }

@@ -3,7 +3,7 @@ package com.godeltech.mastery.task.service;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.godeltech.mastery.task.config.ServiceTestConfiguration;
+import com.godeltech.mastery.task.config.ServiceIntegrationTestConfiguration;
 import com.godeltech.mastery.task.dao.EmployeeDao;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
@@ -17,10 +17,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ServiceTestConfiguration.class)
+@ContextConfiguration(classes = ServiceIntegrationTestConfiguration.class)
 public class EmployeeMockServiceTest {
 
     @Mock
@@ -43,7 +43,7 @@ public class EmployeeMockServiceTest {
     @Test
     public void addEmployeeTest() {
         Employee employee= new Employee("Genry","Mitchel",
-                5,"Manager", Gender.MALE, new GregorianCalendar(1980, 10-1, 12).getTime());
+                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
         when(daoMock.insertEmployee(employee)).thenReturn((long)3);
         Long id = service.addEmployee(employee);
         assertEquals(id, Long.valueOf(3));
@@ -52,7 +52,7 @@ public class EmployeeMockServiceTest {
     @Test(expected = OperationFailedException.class)
     public void updateNonexistentEmployeeTest() {
         Employee employee= new Employee((long)5,"Genry","Mitchel",
-                5,"Manager", Gender.MALE, new GregorianCalendar(1980, 10-1, 12).getTime());
+                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
         doThrow(new OperationFailedException("Illegal Employee's ID")).when(daoMock).updateEmployee(employee);
         service.updateEmployee(employee);
     }

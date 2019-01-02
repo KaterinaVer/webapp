@@ -12,10 +12,7 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 
@@ -35,35 +32,38 @@ public class EmployeeDaoTest {
 
     @Test
     public void getByIdTest(){
-        Employee employeeFromDb = employeeDao.getEmployeeById((long)1);
+        Employee employeeFromDb = employeeDao.getEmployeeById(1L);
         assertEquals(employeeFromDb.getFirstName(), "Archie");
     }
 
     @Test
     public void deleteTest(){
-        Long id= employeeDao.deleteEmployee((long)1);
+        Long id= employeeDao.deleteEmployee(1L);
         List<Employee> employee = employeeDao.findAll();
         Assert.assertTrue(employee.size() == 1);
     }
 
     @Test
-    public void insertTest() throws ParseException{
-        String format = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        Date dateOfBirth = simpleDateFormat.parse("1980-10-12");
+    public void insertTest() {
         Employee employee= new Employee("Genry","Mitchel",
-                5,"Manager", Gender.MALE, dateOfBirth);
+                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
         Long id = employeeDao.insertEmployee(employee);
         Employee employeeFromDb = employeeDao.getEmployeeById(id);
         assertEquals(employeeFromDb.getFirstName(), "Genry");
     }
 
+    @Test(expected = RuntimeException.class)
+    public void insertNonexistentEmployeeTest() {
+        Employee employee= new Employee();
+        Long id = employeeDao.insertEmployee(employee);
+    }
+
     @Test
-    public void updateTest(){
-        Employee employee = employeeDao.getEmployeeById((long)1);
+    public void updateTest() {
+        Employee employee = employeeDao.getEmployeeById(1L);
         employee.setFirstName("Dan");
         employeeDao.updateEmployee(employee);
-        employee = employeeDao.getEmployeeById((long)1);
+        employee = employeeDao.getEmployeeById(1L);
         Assert.assertTrue(employee.getDepartmentId()==23);
         assertEquals(employee.getFirstName(), "Dan");
     }

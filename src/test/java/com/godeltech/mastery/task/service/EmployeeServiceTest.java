@@ -1,6 +1,6 @@
 package com.godeltech.mastery.task.service;
 
-import com.godeltech.mastery.task.config.ServiceTestConfiguration;
+import com.godeltech.mastery.task.config.ServiceIntegrationTestConfiguration;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
 import org.junit.Assert;
@@ -11,15 +11,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ServiceTestConfiguration.class)
+@ContextConfiguration(classes = ServiceIntegrationTestConfiguration.class)
 @Transactional
 public class EmployeeServiceTest {
 
@@ -34,24 +32,21 @@ public class EmployeeServiceTest {
 
     @Test
     public void getByIdTest(){
-        Employee employeeFromDb = employeeService.getEmployeeById((long)1);
+        Employee employeeFromDb = employeeService.getEmployeeById(1L);
         assertEquals(employeeFromDb.getFirstName(), "Archie");
     }
 
     @Test
     public void deleteTest(){
-        Long id= employeeService.deleteEmployee((long)1);
+        Long id= employeeService.deleteEmployee(1L);
         List<Employee> employee = employeeService.getEmployees();
         Assert.assertTrue(employee.size() == 1);
     }
 
     @Test
-    public void insertTest() throws ParseException {
-        String format = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        Date dateOfBirth = simpleDateFormat.parse("1980-10-12");
+    public void insertTest(){
         Employee employee= new Employee("Genry","Mitchel",
-                5,"Manager", Gender.MALE, dateOfBirth);
+                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
         Long id = employeeService.addEmployee(employee);
         Employee employeeFromDb = employeeService.getEmployeeById(id);
         assertEquals(employeeFromDb.getFirstName(), "Genry");
@@ -59,10 +54,10 @@ public class EmployeeServiceTest {
 
     @Test
     public void updateTest(){
-        Employee employee = employeeService.getEmployeeById((long)1);
+        Employee employee = employeeService.getEmployeeById(1L);
         employee.setFirstName("Dan");
         employeeService.updateEmployee(employee);
-        employee = employeeService.getEmployeeById((long)1);
+        employee = employeeService.getEmployeeById(1L);
         Assert.assertTrue(employee.getDepartmentId()==23);
         assertEquals(employee.getFirstName(), "Dan");
     }

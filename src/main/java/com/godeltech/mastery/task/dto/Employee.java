@@ -1,5 +1,6 @@
 package com.godeltech.mastery.task.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Employee {
@@ -10,12 +11,12 @@ public class Employee {
     private Integer departmentId;
     private String jobTitle;
     private Gender gender;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, Date dateOfBirth) {
+    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
@@ -24,7 +25,7 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Employee(Long employeeId, String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, Date dateOfBirth) {
+    public Employee(Long employeeId, String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, LocalDate dateOfBirth) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -99,11 +100,11 @@ public class Employee {
         this.gender = gender;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
