@@ -3,10 +3,11 @@ package com.godeltech.mastery.task.service;
 import com.godeltech.mastery.task.config.ServiceIntegrationTestConfiguration;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
-import org.junit.Assert;
+import com.godeltech.mastery.task.service.exception.OperationFailedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,38 +28,84 @@ public class EmployeeServiceTest {
     @Test
     public void getEmployeesTest(){
         List<Employee> employee = employeeService.getEmployees();
-        Assert.assertTrue(employee.size() == 2);
+
+        assertEquals(2, employee.size());
     }
 
     @Test
     public void getByIdTest(){
         Employee employeeFromDb = employeeService.getEmployeeById(1L);
-        assertEquals(employeeFromDb.getFirstName(), "Archie");
+
+        assertEquals("Archie", employeeFromDb.getFirstName());
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void getEmployeeByIllegalIdTest() {
+        employeeService.getEmployeeById(-1L);
     }
 
     @Test
     public void deleteTest(){
         Long id= employeeService.deleteEmployee(1L);
         List<Employee> employee = employeeService.getEmployees();
-        Assert.assertTrue(employee.size() == 1);
+
+        assertEquals(1, employee.size());
     }
 
     @Test
     public void insertTest(){
-        Employee employee= new Employee("Genry","Mitchel",
-                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+        Employee employee= new Employee("Genry","Mitchel", 5,
+                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+
         Long id = employeeService.addEmployee(employee);
+
         Employee employeeFromDb = employeeService.getEmployeeById(id);
-        assertEquals(employeeFromDb.getFirstName(), "Genry");
+
+        assertEquals("Genry", employeeFromDb.getFirstName());
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void addIllegalEmployeeTest() {
+        Employee employee= new Employee("Genry","Mitchel", 5,
+                "Manager", Gender.MALE, LocalDate.of(2007, 10,12));
+
+        employeeService.addEmployee(employee);
     }
 
     @Test
     public void updateTest(){
         Employee employee = employeeService.getEmployeeById(1L);
-        employee.setFirstName("Dan");
+        employee.setFirstName("Test");
+
         employeeService.updateEmployee(employee);
+
         employee = employeeService.getEmployeeById(1L);
-        Assert.assertTrue(employee.getDepartmentId()==23);
-        assertEquals(employee.getFirstName(), "Dan");
+
+        assertEquals(Integer.valueOf(23), employee.getDepartmentId());
+        assertEquals("Test", employee.getFirstName());
     }
+
+    @Test(expected = OperationFailedException.class)
+    public void updateNonexistentEmployeeTest() {
+        Employee employee= new Employee(5L,"Genry","Mitchel", 5,
+                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+
+        employeeService.updateEmployee(employee);
+    }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void getByNonexistentIdTest(){
+        employeeService.getEmployeeById(5L);
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void getByNullIdTest(){
+        employeeService.getEmployeeById(null);
+    }
+
+    @Test(expected = OperationFailedException.class)
+    public void deleteByIllegalIdTest(){
+        employeeService.deleteEmployee(-1L);
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.godeltech.mastery.task.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Employee {
 
@@ -33,23 +32,6 @@ public class Employee {
         this.jobTitle = jobTitle;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public Employee(Long employeeId, String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender) {
-        this.employeeId = employeeId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.departmentId = departmentId;
-        this.jobTitle = jobTitle;
-        this.gender = gender;
-    }
-
-    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.departmentId = departmentId;
-        this.jobTitle = jobTitle;
-        this.gender = gender;
     }
 
     public Long getEmployeeId() {
@@ -109,7 +91,10 @@ public class Employee {
     }
 
     public String toString() {
-        return "Employee[id=" + this.employeeId + ", name=" + this.firstName + "]";
+        return "Employee [ id =" + this.employeeId + ", first name=" + this.firstName
+                + ", last name=" + this.lastName + ", department id =" + this.departmentId
+                + ", job title =" + this.jobTitle +", gender =" + this.gender + ", date of birth ="
+                + this.dateOfBirth + " ]";
     }
 
 }

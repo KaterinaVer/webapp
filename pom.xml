@@ -22,7 +22,7 @@
 		<pg.embedded.version>0.7.1</pg.embedded.version>
 	</properties>
 
-    <dependencies>
+	<dependencies>
 
 		<!--Spring Framework-->
 		<dependency>

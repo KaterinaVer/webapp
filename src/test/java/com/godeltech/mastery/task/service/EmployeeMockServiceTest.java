@@ -3,25 +3,23 @@ package com.godeltech.mastery.task.service;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.godeltech.mastery.task.config.ServiceIntegrationTestConfiguration;
 import com.godeltech.mastery.task.dao.EmployeeDao;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
-import com.godeltech.mastery.task.service.exception.OperationFailedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ServiceIntegrationTestConfiguration.class)
-public class EmployeeMockServiceTest {
+@RunWith(MockitoJUnitRunner.class)
+public class    EmployeeMockServiceTest {
 
     @Mock
     private EmployeeDao daoMock;
@@ -30,49 +28,67 @@ public class EmployeeMockServiceTest {
     private EmployeeService service;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expected = OperationFailedException.class)
+    @Test
     public void getEmployeeByIdTest() {
-        when(daoMock.getEmployeeById((long)-1)).thenThrow(new OperationFailedException("Illegal Employee's ID"));
-        service.getEmployeeById((long)-1);
+        Employee employee = new Employee("Genry","Mitchel", 5,
+                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+
+        when(daoMock.getEmployeeById(anyLong())).thenReturn(employee);
+
+        Employee employeeFromDB = service.getEmployeeById(3L);
+
+        assertEquals(employee, employeeFromDB);
     }
 
     @Test
     public void addEmployeeTest() {
         Employee employee= new Employee("Genry","Mitchel",
                 5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
-        when(daoMock.insertEmployee(employee)).thenReturn((long)3);
+
+        when(daoMock.insertEmployee(employee)).thenReturn(3L);
+
         Long id = service.addEmployee(employee);
-        assertEquals(id, Long.valueOf(3));
+
+        assertEquals(Long.valueOf(3), id);
     }
 
-    @Test(expected = OperationFailedException.class)
-    public void updateNonexistentEmployeeTest() {
-        Employee employee= new Employee((long)5,"Genry","Mitchel",
-                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
-        doThrow(new OperationFailedException("Illegal Employee's ID")).when(daoMock).updateEmployee(employee);
+    @Test
+    public void getEmployeesTest(){
+
+        List<Employee> employees = new ArrayList<>();
+
+        employees.add(new Employee(1L,"Genry","Mitchel", 5,
+                "Manager", Gender.MALE, LocalDate.of(1980, 10,12)));
+
+        when(daoMock.findAll()).thenReturn(employees);
+
+        employees = service.getEmployees();
+
+        assertEquals(1, employees.size());
+    }
+
+    @Test
+    public void updateEmployeeTest() {
+        Employee employee= new Employee( 2L,"Genry","Mitchel", 5,
+                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+
+        doNothing().when(daoMock).updateEmployee(employee);
+
         service.updateEmployee(employee);
-    }
 
-    @Test(expected = OperationFailedException.class)
-    public void getNonexistentEmployeesTest(){
-        doThrow(new OperationFailedException("Employees don't exist")).when(daoMock).findAll();
-        service.getEmployees();
-    }
-
-    @Test(expected = OperationFailedException.class)
-    public void deleteNonexistentEmployeeTest() {
-        when(daoMock.deleteEmployee((long)-1)).thenThrow(new OperationFailedException("Illegal Employee's ID"));
-        service.deleteEmployee((long)-1);
+        verify(daoMock).updateEmployee(employee);
     }
 
     @Test
     public void deleteEmployeeTest() {
-        when(daoMock.deleteEmployee(anyLong())).thenReturn((long)2);
-        Long id = service.deleteEmployee((long)2);
-        assertEquals(id, Long.valueOf(2));
+        when(daoMock.deleteEmployee(anyLong())).thenReturn(2L);
+
+        Long id = service.deleteEmployee(2L);
+
+        assertEquals(Long.valueOf(2), id);
     }
 }

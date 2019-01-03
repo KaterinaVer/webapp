@@ -4,12 +4,11 @@ import com.godeltech.mastery.task.config.DaoTestConfiguration;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.junit.Test;
-import org.junit.Assert;
 import org.junit.runner.RunWith;
 
 import java.time.LocalDate;
@@ -25,46 +24,54 @@ public class EmployeeDaoTest {
     EmployeeDao employeeDao;
 
     @Test
-    public void findAllTest() throws Exception {
+    public void findAllTest() {
         List<Employee> employee = employeeDao.findAll();
-        Assert.assertTrue(employee.size() == 2);
+
+        assertEquals(2, employee.size());
     }
 
     @Test
     public void getByIdTest(){
-        Employee employeeFromDb = employeeDao.getEmployeeById(1L);
-        assertEquals(employeeFromDb.getFirstName(), "Archie");
+        Employee employee = employeeDao.getEmployeeById(1L);
+
+        assertEquals("Archie", employee.getFirstName());
+    }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void getByNonexistentIdTest(){
+        employeeDao.getEmployeeById(6L);
     }
 
     @Test
     public void deleteTest(){
-        Long id= employeeDao.deleteEmployee(1L);
+        employeeDao.deleteEmployee(1L);
         List<Employee> employee = employeeDao.findAll();
-        Assert.assertTrue(employee.size() == 1);
+
+        assertEquals(1, employee.size());
     }
 
     @Test
     public void insertTest() {
-        Employee employee= new Employee("Genry","Mitchel",
-                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
-        Long id = employeeDao.insertEmployee(employee);
-        Employee employeeFromDb = employeeDao.getEmployeeById(id);
-        assertEquals(employeeFromDb.getFirstName(), "Genry");
-    }
+        Employee employee= new Employee("Genry","Mitchel", 5,
+                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
 
-    @Test(expected = RuntimeException.class)
-    public void insertNonexistentEmployeeTest() {
-        Employee employee= new Employee();
         Long id = employeeDao.insertEmployee(employee);
+
+        Employee employeeFromDb = employeeDao.getEmployeeById(id);
+
+        assertEquals(employee.getFirstName(), employeeFromDb.getFirstName());
     }
 
     @Test
     public void updateTest() {
         Employee employee = employeeDao.getEmployeeById(1L);
-        employee.setFirstName("Dan");
+        employee.setFirstName("Test");
+
         employeeDao.updateEmployee(employee);
+
         employee = employeeDao.getEmployeeById(1L);
-        Assert.assertTrue(employee.getDepartmentId()==23);
-        assertEquals(employee.getFirstName(), "Dan");
+
+        assertEquals(Integer.valueOf(23), employee.getDepartmentId());
+        assertEquals("Test",employee.getFirstName());
     }
 }
