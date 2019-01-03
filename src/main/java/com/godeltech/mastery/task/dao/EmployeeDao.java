@@ -3,6 +3,8 @@ package com.godeltech.mastery.task.dao;
 import java.sql.Types;
 import java.util.List;
 
+import com.godeltech.mastery.task.dto.Employee;
+import com.godeltech.mastery.task.dto.Gender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -11,8 +13,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import com.godeltech.mastery.task.dto.Employee;
-import com.godeltech.mastery.task.dto.Gender;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -46,7 +46,7 @@ public class EmployeeDao {
        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    private RowMapper<Employee> employeeRowMapper =(resultSet,i)->{
+    private RowMapper<Employee> employeeRowMapper =(resultSet, i)->{
         return new Employee(
                 resultSet.getLong("employee_id"),
                 resultSet.getString("first_name"),

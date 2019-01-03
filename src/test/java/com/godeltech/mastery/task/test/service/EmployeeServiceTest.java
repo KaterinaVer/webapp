@@ -1,8 +1,9 @@
-package com.godeltech.mastery.task.service;
+package com.godeltech.mastery.task.test.service;
 
-import com.godeltech.mastery.task.config.ServiceIntegrationTestConfiguration;
+import com.godeltech.mastery.task.test.config.ServiceIntegrationTestConfiguration;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
+import com.godeltech.mastery.task.service.EmployeeService;
 import com.godeltech.mastery.task.service.exception.OperationFailedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.godeltech.mastery.task.service;
+package com.godeltech.mastery.task.test.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import com.godeltech.mastery.task.dao.EmployeeDao;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
+import com.godeltech.mastery.task.service.EmployeeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

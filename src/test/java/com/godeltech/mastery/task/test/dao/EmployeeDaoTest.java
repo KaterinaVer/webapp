@@ -1,8 +1,9 @@
-package com.godeltech.mastery.task.dao;
+package com.godeltech.mastery.task.test.dao;
 
-import com.godeltech.mastery.task.config.DaoTestConfiguration;
+import com.godeltech.mastery.task.dao.EmployeeDao;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
+import com.godeltech.mastery.task.test.config.DaoTestConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;

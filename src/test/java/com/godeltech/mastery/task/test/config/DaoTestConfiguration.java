@@ -1,6 +1,5 @@
-package com.godeltech.mastery.task.config;
+package com.godeltech.mastery.task.test.config;
 
-import com.godeltech.mastery.task.dao.EmployeeDao;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -25,7 +24,7 @@ import java.io.IOException;
 public class DaoTestConfiguration {
 
     @Bean
-    public DataSource getDataSource() throws IOException{
+    public DataSource dataSource() throws IOException{
         Resource createScript = new ClassPathResource("create-table.sql");
         DatabasePopulator databasePopulator = new ResourceDatabasePopulator(createScript);
         DatabasePopulatorUtils.execute(databasePopulator, embeddedPostgres().getPostgresDatabase());
@@ -43,7 +42,7 @@ public class DaoTestConfiguration {
 
     @Bean
     public PlatformTransactionManager txManager() throws IOException{
-        return new DataSourceTransactionManager(getDataSource());
+        return new DataSourceTransactionManager(dataSource());
     }
 
 }

@@ -1,7 +1,5 @@
 package com.godeltech.mastery.task.config;
 
-import com.godeltech.mastery.task.dao.EmployeeDao;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -25,7 +23,7 @@ import javax.sql.DataSource;
 public class DaoConfiguration {
 
     @Bean
-    public DataSource getDataSource() {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("${database.driverClassName}");
         dataSource.setUrl("${database.url}");
@@ -44,7 +42,7 @@ public class DaoConfiguration {
 
     @Bean
     public PlatformTransactionManager txManager() {
-        return new DataSourceTransactionManager(getDataSource());
+        return new DataSourceTransactionManager(dataSource());
     }
 
 }
