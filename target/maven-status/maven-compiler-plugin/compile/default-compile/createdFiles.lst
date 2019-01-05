@@ -1,9 +1,0 @@
-com/godeltech/mastery/task/service/exception/OperationFailedException.class
-com/godeltech/mastery/task/dto/Employee.class
-com/godeltech/mastery/task/config/AppConfiguration.class
-com/godeltech/mastery/task/rest/EmployeeController.class
-com/godeltech/mastery/task/dao/EmployeeDao.class
-com/godeltech/mastery/task/service/EmployeeService.class
-com/godeltech/mastery/task/dto/Gender.class
-com/godeltech/mastery/task/config/DaoConfiguration.class
-com/godeltech/mastery/task/config/WebAppInitializer.class
