@@ -86,14 +86,6 @@ public class EmployeeServiceTest {
         assertEquals("Test", employee.getFirstName());
     }
 
-    @Test(expected = OperationFailedException.class)
-    public void updateNonexistentEmployeeTest() {
-        Employee employee= new Employee(5L,"Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
-
-        employeeService.updateEmployee(employee);
-    }
-
     @Test(expected = EmptyResultDataAccessException.class)
     public void getByNonexistentIdTest(){
         employeeService.getEmployeeById(5L);
