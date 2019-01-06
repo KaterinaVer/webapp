@@ -1,5 +1,8 @@
 package com.godeltech.mastery.task.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import java.time.LocalDate;
 
 public class Employee {
@@ -10,6 +13,7 @@ public class Employee {
     private Integer departmentId;
     private String jobTitle;
     private Gender gender;
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate dateOfBirth;
 
     public Employee() {
