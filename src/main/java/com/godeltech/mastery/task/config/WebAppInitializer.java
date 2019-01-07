@@ -14,7 +14,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext context
                 = new AnnotationConfigWebApplicationContext();
-        context.setConfigLocation("com.godeltech.mastery.task.config");
+        context.register(AppConfiguration.class);
 
         servletContext.addListener(new ContextLoaderListener(context));
 

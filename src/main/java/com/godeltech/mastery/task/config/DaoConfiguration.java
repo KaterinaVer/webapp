@@ -1,5 +1,6 @@
 package com.godeltech.mastery.task.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -17,18 +18,30 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySources({
-        @PropertySource("database.properties"),
-        @PropertySource("sql.properties")
+        @PropertySource("classpath:database.properties"),
+        @PropertySource("classpath:sql.properties")
 })
 public class DaoConfiguration {
+
+    @Value("${database.driverClassName}")
+    String driverClassName;
+
+    @Value("${database.url}")
+    String url;
+
+    @Value("${database.username}")
+    String username;
+
+    @Value("${database.password}")
+    String password;
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("${database.driverClassName}");
-        dataSource.setUrl("${database.url}");
-        dataSource.setUsername("${database.username}");
-        dataSource.setPassword("${database.password}");
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
 
         Resource createScript = new ClassPathResource("create-table.sql");
         DatabasePopulator databasePopulator = new ResourceDatabasePopulator(createScript);

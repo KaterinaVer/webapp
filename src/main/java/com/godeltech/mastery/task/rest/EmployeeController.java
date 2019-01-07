@@ -12,45 +12,50 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class EmployeeController {
 
-    @Autowired
-    EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    @GetMapping("/employee")
+    @Autowired
+    public EmployeeController(EmployeeService employeeService){
+        this.employeeService = employeeService;
+    }
+
+    @GetMapping("/employees")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<Employee> getAllEmployees() {
         return employeeService.getEmployees();
     }
 
-    @GetMapping("/employee/{id}")
+    @GetMapping("/employees/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Employee getEmployee(@PathVariable("id") long id) {
+    public Employee getEmployee(@PathVariable("id") Long id) {
         return employeeService.getEmployeeById(id);
     }
 
-    @PostMapping("/employee")
+    @PostMapping("/employees")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<Void> createEmployee(@RequestBody Employee employee, UriComponentsBuilder ucBuilder) {
         employeeService.addEmployee(employee);
 
-        UriComponents uriComponent = ucBuilder.path("/employee/{id}").buildAndExpand(employee.getEmployeeId());
+        UriComponents uriComponent = ucBuilder.path("/employees/{id}").buildAndExpand(employee.getEmployeeId());
         return ResponseEntity.created(uriComponent.toUri()).build();
     }
 
-    @PutMapping("/employee/{id}")
+    @PutMapping("/employees/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
-    public void updateEmployee(@PathVariable("id") long id, @RequestBody  Employee employee) {
+    public void updateEmployee(@PathVariable("id") Long id, @RequestBody  Employee employee) {
         employee.setEmployeeId(id);
 
         employeeService.updateEmployee(employee);
     }
 
-    @DeleteMapping("/employee/{id}")
+    @DeleteMapping("/employees/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void deleteEmployee(@PathVariable("id") long id) {

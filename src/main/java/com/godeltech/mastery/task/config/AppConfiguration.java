@@ -25,6 +25,7 @@ import java.util.List;
 public class AppConfiguration extends WebMvcConfigurerAdapter {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy::MM::dd");
+
     @Bean
     public MappingJackson2HttpMessageConverter jsonConverter() {
         MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
