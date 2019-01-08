@@ -1,6 +1,5 @@
 package com.godeltech.mastery.task.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -12,10 +11,8 @@ public class Employee {
     private Long employeeId;
     private String firstName;
     private String lastName;
-    @JsonSerialize(using = ToStringSerializer.class)
     private Integer departmentId;
     private String jobTitle;
-    @JsonSerialize(using = ToStringSerializer.class)
     private Gender gender;
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate dateOfBirth;
@@ -23,7 +20,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, Integer departmentId,  String jobTitle,  Gender gender, LocalDate dateOfBirth) {
+    public Employee(Long employeeId,String firstName, String lastName, Integer departmentId,  String jobTitle,  Gender gender, LocalDate dateOfBirth) {
+        this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
@@ -32,8 +30,8 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Employee(Long employeeId, String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, LocalDate dateOfBirth) {
-        this.employeeId = employeeId;
+    public Employee( String firstName,String lastName,Integer departmentId,  String jobTitle, Gender gender, LocalDate dateOfBirth) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;

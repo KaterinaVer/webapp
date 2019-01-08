@@ -5,20 +5,12 @@ import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
 import com.godeltech.mastery.task.rest.EmployeeController;
 import com.godeltech.mastery.task.service.EmployeeService;
-import com.godeltech.mastery.task.test.config.AppTestConfiguration;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,10 +26,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@RunWith(MockitoJUnitRunner.class)
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppTestConfiguration.class)
-@WebAppConfiguration
 public class EmployeeControllerTest {
 
     @InjectMocks
@@ -48,14 +36,10 @@ public class EmployeeControllerTest {
     @Mock
     private EmployeeService service;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-       //mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-       mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
     }
 
     @Test
@@ -68,7 +52,7 @@ public class EmployeeControllerTest {
         employees.add(new Employee(2L,"Lukas","White", 5,
                 "Manager", Gender.MALE, LocalDate.of(1985, 6,8)));
 
-        Mockito.when(service.getEmployees()).thenReturn(employees);
+        when(service.getEmployees()).thenReturn(employees);
 
         mockMvc.perform(
                 get("/employees")
@@ -94,7 +78,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void addEmployeeTest() throws Exception{
-        String employee = new ObjectMapper().writeValueAsString(new Employee(3L,"Genry","Mitchel",
+        String employee = new ObjectMapper().writeValueAsString(new Employee(1L,"Genry","Mitchel",
                 5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12)));
 
         when(service.addEmployee(any(Employee.class))).thenReturn(3L);
