@@ -4,6 +4,7 @@ import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
@@ -40,9 +41,9 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<Void> createEmployee(@RequestBody Employee employee, UriComponentsBuilder ucBuilder) {
-        employeeService.addEmployee(employee);
+        Long id = employeeService.addEmployee(employee);
 
-        UriComponents uriComponent = ucBuilder.path("/employees/{id}").buildAndExpand(employee.getEmployeeId());
+        UriComponents uriComponent = ucBuilder.path("/employees/{id}").buildAndExpand(id);
         return ResponseEntity.created(uriComponent.toUri()).build();
     }
 

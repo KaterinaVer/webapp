@@ -62,7 +62,7 @@ public class EmployeeServiceTest {
 
         Employee employeeFromDb = employeeService.getEmployeeById(id);
 
-        assertEquals("Genry", employeeFromDb.getFirstName());
+        assertEquals(employee.getDateOfBirth(), employeeFromDb.getDateOfBirth());
     }
 
     @Test(expected = OperationFailedException.class)
