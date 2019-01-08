@@ -1,10 +1,8 @@
 package com.godeltech.mastery.task.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Employee {
 
@@ -14,13 +12,13 @@ public class Employee {
     private Integer departmentId;
     private String jobTitle;
     private Gender gender;
-    @JsonSerialize(using = ToStringSerializer.class)
-    private LocalDate dateOfBirth;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dateOfBirth;
 
     public Employee() {
     }
 
-    public Employee(Long employeeId,String firstName, String lastName, Integer departmentId,  String jobTitle,  Gender gender, LocalDate dateOfBirth) {
+    public Employee(Long employeeId, String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, Date dateOfBirth) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,8 +28,7 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Employee( String firstName,String lastName,Integer departmentId,  String jobTitle, Gender gender, LocalDate dateOfBirth) {
-
+    public Employee(String firstName, String lastName, Integer departmentId, String jobTitle, Gender gender, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
@@ -88,11 +85,11 @@ public class Employee {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

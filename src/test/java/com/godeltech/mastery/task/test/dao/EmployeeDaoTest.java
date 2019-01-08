@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.time.LocalDate;
+import java.util.GregorianCalendar;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 
@@ -54,7 +54,7 @@ public class EmployeeDaoTest {
     @Test
     public void insertTest() {
         Employee employee= new Employee("Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime());
 
         Long id = employeeDao.insertEmployee(employee);
 
@@ -73,6 +73,6 @@ public class EmployeeDaoTest {
         employee = employeeDao.getEmployeeById(1L);
 
         assertEquals(Integer.valueOf(23), employee.getDepartmentId());
-        assertEquals("Test",employee.getFirstName());
+        assertEquals("Test", employee.getFirstName());
     }
 }

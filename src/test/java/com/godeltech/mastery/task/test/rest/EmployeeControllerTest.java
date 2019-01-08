@@ -5,6 +5,7 @@ import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
 import com.godeltech.mastery.task.rest.EmployeeController;
 import com.godeltech.mastery.task.service.EmployeeService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
@@ -12,8 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,9 +49,9 @@ public class EmployeeControllerTest {
         List<Employee> employees = new ArrayList<>();
 
         employees.add(new Employee(1L,"Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12)));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime()));
         employees.add(new Employee(2L,"Lukas","White", 5,
-                "Manager", Gender.MALE, LocalDate.of(1985, 6,8)));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime()));
 
         when(service.getEmployees()).thenReturn(employees);
 
@@ -64,8 +65,8 @@ public class EmployeeControllerTest {
 
     @Test
     public void getEmployeeByIdTest() throws Exception {
-        Employee employee = new Employee("Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+        Employee employee = new Employee(1L,"Genry","Mitchel", 5,
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime());
 
         when(service.getEmployeeById(anyLong())).thenReturn(employee);
 
@@ -79,7 +80,7 @@ public class EmployeeControllerTest {
     @Test
     public void addEmployeeTest() throws Exception{
         String employee = new ObjectMapper().writeValueAsString(new Employee(1L,"Genry","Mitchel",
-                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12)));
+                5,"Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime()));
 
         when(service.addEmployee(any(Employee.class))).thenReturn(3L);
 
@@ -95,7 +96,7 @@ public class EmployeeControllerTest {
     @Test
     public void updateEmployeeTest() throws Exception{
         String employee = new ObjectMapper().writeValueAsString(new Employee(1L,"Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12)));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime()));
 
         doNothing().when(service).updateEmployee(any(Employee.class));
 

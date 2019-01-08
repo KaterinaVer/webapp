@@ -15,12 +15,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class    EmployeeMockServiceTest {
+public class EmployeeMockServiceTest {
 
     @Mock
     private EmployeeDao daoMock;
@@ -36,7 +36,7 @@ public class    EmployeeMockServiceTest {
     @Test
     public void getEmployeeByIdTest() {
         Employee employee = new Employee("Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime());
 
         when(daoMock.getEmployeeById(anyLong())).thenReturn(employee);
 
@@ -48,8 +48,7 @@ public class    EmployeeMockServiceTest {
     @Test
     public void addEmployeeTest() {
         Employee employee= new Employee("Genry","Mitchel",
-                5,"Manager", Gender.MALE, LocalDate.of(1980, 10,12));
-
+                5,"Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime());
         when(daoMock.insertEmployee(employee)).thenReturn(3L);
 
         Long id = service.addEmployee(employee);
@@ -63,7 +62,7 @@ public class    EmployeeMockServiceTest {
         List<Employee> employees = new ArrayList<>();
 
         employees.add(new Employee(1L,"Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12)));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime()));
 
         when(daoMock.findAll()).thenReturn(employees);
 
@@ -75,7 +74,7 @@ public class    EmployeeMockServiceTest {
     @Test
     public void updateEmployeeTest() {
         Employee employee= new Employee( 2L,"Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime());
 
         doNothing().when(daoMock).updateEmployee(employee);
 

@@ -4,7 +4,6 @@ import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
@@ -25,21 +24,18 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     public List<Employee> getAllEmployees() {
         return employeeService.getEmployees();
     }
 
     @GetMapping("/employees/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     public Employee getEmployee(@PathVariable("id") Long id) {
         return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/employees")
     @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
     public ResponseEntity<Void> createEmployee(@RequestBody Employee employee, UriComponentsBuilder ucBuilder) {
         Long id = employeeService.addEmployee(employee);
 
@@ -49,7 +45,6 @@ public class EmployeeController {
 
     @PutMapping("/employees/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @ResponseBody
     public void updateEmployee(@PathVariable("id") Long id, @RequestBody  Employee employee) {
         employee.setEmployeeId(id);
 
@@ -58,7 +53,6 @@ public class EmployeeController {
 
     @DeleteMapping("/employees/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     public void deleteEmployee(@PathVariable("id") long id) {
         employeeService.deleteEmployee(id);
     }

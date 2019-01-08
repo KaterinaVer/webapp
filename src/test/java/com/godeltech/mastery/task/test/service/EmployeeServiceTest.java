@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -56,7 +56,7 @@ public class EmployeeServiceTest {
     @Test
     public void insertTest(){
         Employee employee= new Employee("Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(1980, 10,12));
+                "Manager", Gender.MALE, new GregorianCalendar(1980, 10,12).getTime());
 
         Long id = employeeService.addEmployee(employee);
 
@@ -68,7 +68,7 @@ public class EmployeeServiceTest {
     @Test(expected = OperationFailedException.class)
     public void addIllegalEmployeeTest() {
         Employee employee= new Employee("Genry","Mitchel", 5,
-                "Manager", Gender.MALE, LocalDate.of(2007, 10,12));
+                "Manager", Gender.MALE, new GregorianCalendar(2010, 10,12).getTime());
 
         employeeService.addEmployee(employee);
     }

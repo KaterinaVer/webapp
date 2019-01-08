@@ -6,8 +6,8 @@ import com.godeltech.mastery.task.service.exception.OperationFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,9 +42,20 @@ public class EmployeeService {
         if (employee.getDateOfBirth() == null) {
             throw new OperationFailedException("Employee's date of birth should not be null");
         }
-        if ( Period.between(employee.getDateOfBirth(), LocalDate.now()).getYears() < 16) {
+
+        if ( getAge(employee) < 16) {
             throw new OperationFailedException("Employee should be older");
         }
+    }
+
+    private static int getAge(Employee employee){
+        Calendar dateOfBirth = Calendar.getInstance();
+        Calendar todayDate = Calendar.getInstance();
+
+        dateOfBirth.setTime(employee.getDateOfBirth());
+        todayDate.setTime(new Date());
+
+        return todayDate.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
     }
 
     public List<Employee> getEmployees(){

@@ -54,7 +54,7 @@ public class EmployeeDao {
                 resultSet.getInt("department_id"),
                 resultSet.getString("job_title"),
                 Gender.valueOf(resultSet.getString("gender")),
-                resultSet.getDate("date_of_birth").toLocalDate()
+                resultSet.getDate("date_of_birth")
                 );
     };
 
