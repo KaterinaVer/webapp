@@ -1,9 +1,8 @@
-package com.godeltech.mastery.task.test.rest;
+package com.godeltech.mastery.task.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
-import com.godeltech.mastery.task.rest.EmployeeController;
 import com.godeltech.mastery.task.service.EmployeeService;
 
 import org.junit.Before;
@@ -61,6 +60,8 @@ public class EmployeeControllerTest {
         ).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+
+        verify(service).getEmployees();
     }
 
     @Test
@@ -75,6 +76,8 @@ public class EmployeeControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
         ).andDo(print())
                 .andExpect(status().isOk());
+
+        verify(service).getEmployeeById(1L);
     }
 
     @Test
@@ -91,6 +94,8 @@ public class EmployeeControllerTest {
                         .content(employee)
         ).andDo(print())
                 .andExpect(status().isCreated());
+
+        verify(service).addEmployee(any(Employee.class));
     }
 
     @Test
@@ -107,6 +112,8 @@ public class EmployeeControllerTest {
                         .content(employee)
         ).andDo(print())
                 .andExpect(status().isAccepted());
+
+        verify(service).updateEmployee(any(Employee.class));
     }
 
     @Test
@@ -119,5 +126,7 @@ public class EmployeeControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
         ).andDo(print())
                 .andExpect(status().isOk());
+
+        verify(service).deleteEmployee(anyLong());
     }
 }

@@ -1,4 +1,4 @@
-package com.godeltech.mastery.task.test.config;
+package com.godeltech.mastery.task.config;
 
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;

@@ -89,6 +89,7 @@ public class EmployeeDao {
 
     public void updateEmployee(Employee employee) throws DataAccessException {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+
         namedParameters.registerSqlType("gender", Types.OTHER);
         namedParameters.addValue(EMPLOYEE_ID, employee.getEmployeeId());
         namedParameters.addValue(FIRST_NAME, employee.getFirstName());
