@@ -2,7 +2,7 @@ package com.godeltech.mastery.task.dao;
 
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
-import com.godeltech.mastery.task.config.DaoTestConfiguration;
+import com.godeltech.mastery.task.config.TestConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DaoTestConfiguration.class)
+@ContextConfiguration(classes = TestConfiguration.class)
 @Transactional
 public class EmployeeDaoTest {
 

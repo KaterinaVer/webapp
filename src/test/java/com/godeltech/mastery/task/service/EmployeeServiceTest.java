@@ -1,6 +1,6 @@
 package com.godeltech.mastery.task.service;
 
-import com.godeltech.mastery.task.config.ServiceIntegrationTestConfiguration;
+import com.godeltech.mastery.task.config.TestConfiguration;
 import com.godeltech.mastery.task.dto.Employee;
 import com.godeltech.mastery.task.dto.Gender;
 import com.godeltech.mastery.task.service.exception.OperationFailedException;
@@ -18,7 +18,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ServiceIntegrationTestConfiguration.class)
+@ContextConfiguration(classes = TestConfiguration.class)
 @Transactional
 public class EmployeeServiceTest {
 

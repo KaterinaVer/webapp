@@ -1,5 +1,8 @@
 package com.godeltech.mastery.task.config;
 
+import com.godeltech.mastery.task.dao.EmployeeDao;
+import com.godeltech.mastery.task.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -20,8 +23,7 @@ import java.io.IOException;
         @PropertySource("database.properties"),
         @PropertySource("sql.properties")
 })
-@ComponentScan("com.godeltech.mastery.task.dao")
-public class DaoTestConfiguration {
+public class TestConfiguration {
 
     @Bean
     public DataSource dataSource() throws IOException{
@@ -38,6 +40,16 @@ public class DaoTestConfiguration {
     @Bean
     public EmbeddedPostgres embeddedPostgres() throws IOException {
         return EmbeddedPostgres.start();
+    }
+
+    @Bean
+    public EmployeeDao employeeDao() throws IOException{
+        return new EmployeeDao(dataSource());
+    }
+
+    @Bean
+    public EmployeeService employeeService() throws IOException{
+        return new EmployeeService(employeeDao());
     }
 
     @Bean
