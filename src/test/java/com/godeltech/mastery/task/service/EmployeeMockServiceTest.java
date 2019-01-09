@@ -23,7 +23,7 @@ public class EmployeeMockServiceTest {
     private EmployeeDao daoMock;
 
     @InjectMocks
-    private EmployeeService service;
+    private EmployeeServiceImpl service;
 
     @Test
     public void getEmployeeByIdTest() {

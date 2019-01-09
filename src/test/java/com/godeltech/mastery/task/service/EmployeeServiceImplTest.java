@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfiguration.class)
 @Transactional
-public class EmployeeServiceTest {
+public class EmployeeServiceImplTest {
 
     @Autowired
     EmployeeService employeeService;
@@ -78,8 +78,6 @@ public class EmployeeServiceTest {
         employee.setFirstName("Test");
 
         employeeService.updateEmployee(employee);
-
-        employee = employeeService.getEmployeeById(1L);
 
         assertEquals(Integer.valueOf(23), employee.getDepartmentId());
         assertEquals("Test", employee.getFirstName());

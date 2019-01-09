@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfiguration.class)
 @Transactional
-public class EmployeeDaoTest {
+public class EmployeeDaoImplTest {
 
     @Autowired
     EmployeeDao employeeDao;
@@ -68,8 +68,6 @@ public class EmployeeDaoTest {
         employee.setFirstName("Test");
 
         employeeDao.updateEmployee(employee);
-
-        employee = employeeDao.getEmployeeById(1L);
 
         assertEquals(Integer.valueOf(23), employee.getDepartmentId());
         assertEquals("Test", employee.getFirstName());

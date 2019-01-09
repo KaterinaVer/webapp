@@ -1,11 +1,21 @@
 ### Practical task
 
-Using the provided skeleton, implement the REST service.
+####How to run?
 
-Useful link: https://spring.io/guides/gs/rest-service/
+* mvn clean install
+* ./catalina.sh start
+* http://localhost:8080/manager
+* deploy simplewebapp-0.0.1-SNAPSHOT.war
 
-In addition you could use Swagger to provide API documentation.
-        
+####How to test?
+use Postman
+  
+* (GET) /simplewebapp-0.0.1-SNAPSHOT/employees - to get all employees
+* (GET) /simplewebapp-0.0.1-SNAPSHOT/employees/{id} - to get the employee
+* (POST) /simplewebapp-0.0.1-SNAPSHOT/employees - to create new employee
+* (PUT) /simplewebapp-0.0.1-SNAPSHOT/employees/{id} - to update the employee
+* (DELETE) /simplewebapp-0.0.1-SNAPSHOT/employees/{id} - to delete the employee
+ 
         
   
 

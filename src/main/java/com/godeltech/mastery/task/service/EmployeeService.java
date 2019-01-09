@@ -1,90 +1,47 @@
 package com.godeltech.mastery.task.service;
 
-import com.godeltech.mastery.task.dao.EmployeeDao;
 import com.godeltech.mastery.task.dto.Employee;
-import com.godeltech.mastery.task.service.exception.OperationFailedException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-@Service
-public class EmployeeService {
+public interface EmployeeService {
 
-    private EmployeeDao employeeDao;
+    /**
+     * Get all employees.
+     *
+     * @return List of employees.
+     */
+    List<Employee> getEmployees();
 
-    @Autowired
-    public EmployeeService(EmployeeDao employeeDao){
-        this.employeeDao=employeeDao;
-    }
+    /**
+     * Get employee by ID.
+     *
+     * @param employeeId
+     * @return Employee.
+     */
+    Employee getEmployeeById(Long employeeId);
 
-    private void checkEmployee(Employee employee){
-        if (employee == null) {
-            throw new OperationFailedException("Employee should not be null");
-        }
-        if (employee.getFirstName() == null) {
-            throw new OperationFailedException("Employee's first name should not be null");
-        }
-        if (employee.getLastName() == null) {
-            throw new OperationFailedException("Employee's last name should not be null");
-        }
-        if (employee.getDepartmentId() == null) {
-            throw new OperationFailedException("Employee's department ID should not be null");
-        }
-        if (employee.getJobTitle() == null) {
-            throw new OperationFailedException("Employee's job title should not be null");
-        }
-        if (employee.getGender() == null) {
-            throw new OperationFailedException("Employee's gender should not be null");
-        }
-        if (employee.getDateOfBirth() == null) {
-            throw new OperationFailedException("Employee's date of birth should not be null");
-        }
+    /**
+     * Add new employee to DB.
+     *
+     * @param employee
+     * @return Employee ID.
+     */
+    Long addEmployee(Employee employee);
 
-        if ( getAge(employee) < 16) {
-            throw new OperationFailedException("Employee should be older");
-        }
-    }
+    /**
+     * Update employee.
+     *
+     * @param employee
+     * @return nothing.
+     */
+    void updateEmployee(Employee employee);
 
-    private static int getAge(Employee employee){
-        Calendar dateOfBirth = Calendar.getInstance();
-        Calendar todayDate = Calendar.getInstance();
-
-        dateOfBirth.setTime(employee.getDateOfBirth());
-        todayDate.setTime(new Date());
-
-        return todayDate.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
-    }
-
-    public List<Employee> getEmployees(){
-        return employeeDao.findAll();
-    }
-
-    public Employee getEmployeeById(Long employeeId){
-        if(employeeId == null || employeeId <= 0){
-            throw new OperationFailedException("Employee's ID should be more than 0 or not a null");
-        }
-        return employeeDao.getEmployeeById(employeeId);
-    }
-
-    public Long addEmployee(Employee employee)  {
-        checkEmployee(employee);
-
-        return employeeDao.insertEmployee(employee);
-    }
-
-    public void updateEmployee(Employee employee){
-        checkEmployee(employee);
-        employeeDao.updateEmployee(employee);
-    }
-
-    public Long deleteEmployee(Long employeeId){
-        if(employeeId == null || employeeId <= 0){
-            throw new OperationFailedException("Employee's ID should be more than 0 or not a null");
-        }
-        return employeeDao.deleteEmployee(employeeId);
-    }
-
+    /**
+     * Delete employee from DB.
+     *
+     * @param employeeId
+     * @return Count of deleted employees.
+     */
+    Long deleteEmployee(Long employeeId);
 }

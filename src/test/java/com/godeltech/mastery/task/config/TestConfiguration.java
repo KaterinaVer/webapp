@@ -1,8 +1,9 @@
 package com.godeltech.mastery.task.config;
 
 import com.godeltech.mastery.task.dao.EmployeeDao;
+import com.godeltech.mastery.task.dao.EmployeeDaoImpl;
 import com.godeltech.mastery.task.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.godeltech.mastery.task.service.EmployeeServiceImpl;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -44,12 +45,12 @@ public class TestConfiguration {
 
     @Bean
     public EmployeeDao employeeDao() throws IOException{
-        return new EmployeeDao(dataSource());
+        return new EmployeeDaoImpl(dataSource());
     }
 
     @Bean
     public EmployeeService employeeService() throws IOException{
-        return new EmployeeService(employeeDao());
+        return new EmployeeServiceImpl(employeeDao());
     }
 
     @Bean
