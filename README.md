@@ -1,13 +1,13 @@
 ### Practical task
 
-####How to run?
+#### How to run?
 
 * mvn clean install
 * ./catalina.sh start
 * http://localhost:8080/manager
 * deploy simplewebapp-0.0.1-SNAPSHOT.war
 
-####How to test?
+#### How to test?
 use Postman
   
 * (GET) /simplewebapp-0.0.1-SNAPSHOT/employees - to get all employees
