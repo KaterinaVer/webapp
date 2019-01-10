@@ -79,10 +79,10 @@ public class EmployeeServiceImplTest {
 
         employeeService.updateEmployee(employee);
 
-        Employee employeeFromBD = employeeService.getEmployeeById(1L);
+        Employee employeeFromDb = employeeService.getEmployeeById(1L);
 
-        assertEquals(employee.getDepartmentId(), employeeFromBD.getDepartmentId());
-        assertEquals("Test", employeeFromBD.getFirstName());
+        assertEquals(employee.getDepartmentId(), employeeFromDb.getDepartmentId());
+        assertEquals("Test", employeeFromDb.getFirstName());
     }
 
     @Test(expected = EmptyResultDataAccessException.class)

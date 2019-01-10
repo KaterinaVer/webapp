@@ -69,9 +69,9 @@ public class EmployeeDaoImplTest {
 
         employeeDao.updateEmployee(employee);
 
-        Employee employeeFromBD = employeeDao.getEmployeeById(1L);
+        Employee employeeFromDb = employeeDao.getEmployeeById(1L);
 
-        assertEquals(employee.getDepartmentId(), employeeFromBD.getDepartmentId());
-        assertEquals("Test", employeeFromBD.getFirstName());
+        assertEquals(employee.getDepartmentId(), employeeFromDb.getDepartmentId());
+        assertEquals("Test", employeeFromDb.getFirstName());
     }
 }
