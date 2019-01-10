@@ -43,5 +43,5 @@ public interface EmployeeService {
      * @param employeeId
      * @return Count of deleted employees.
      */
-    Long deleteEmployee(Long employeeId);
+    Integer deleteEmployee(Long employeeId);
 }

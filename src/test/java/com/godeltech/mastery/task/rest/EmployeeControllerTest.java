@@ -119,7 +119,7 @@ public class EmployeeControllerTest {
     @Test
     public void deleteEmployeeTest() throws Exception {
 
-        when(service.deleteEmployee(anyLong())).thenReturn(2L);
+        when(service.deleteEmployee(anyLong())).thenReturn(2);
 
         mockMvc.perform(
                 delete("/employees/2")

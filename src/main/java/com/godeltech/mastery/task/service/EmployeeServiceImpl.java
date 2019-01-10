@@ -48,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    private static int getAge(Employee employee){
+    private int getAge(Employee employee){
         Calendar dateOfBirth = Calendar.getInstance();
         Calendar todayDate = Calendar.getInstance();
 
@@ -85,7 +85,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Long deleteEmployee(Long employeeId){
+    public Integer deleteEmployee(Long employeeId){
         if(employeeId == null || employeeId <= 0){
             throw new OperationFailedException("Employee's ID should be more than 0 or not a null");
         }

@@ -46,8 +46,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
        namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    private RowMapper<Employee> employeeRowMapper =(resultSet, i)->{
-        return new Employee(
+    private RowMapper<Employee> employeeRowMapper =(resultSet, i)->new Employee(
                 resultSet.getLong("employee_id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
@@ -56,7 +55,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 Gender.valueOf(resultSet.getString("gender")),
                 resultSet.getDate("date_of_birth")
                 );
-    };
+
 
     @Override
     public List<Employee> findAll() throws DataAccessException{
@@ -106,8 +105,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public Long deleteEmployee(Long employeeId) throws DataAccessException {
-        return (long)namedParameterJdbcTemplate
+    public Integer deleteEmployee(Long employeeId) throws DataAccessException {
+        return namedParameterJdbcTemplate
                 .update(deleteEmployeeSql, new MapSqlParameterSource(EMPLOYEE_ID,employeeId));
     }
 }

@@ -46,10 +46,9 @@ public class EmployeeServiceImplTest {
 
     @Test
     public void deleteTest(){
-        Long id= employeeService.deleteEmployee(1L);
-        List<Employee> employee = employeeService.getEmployees();
+        Integer num= employeeService.deleteEmployee(1L);
 
-        assertEquals(1, employee.size());
+        assertEquals(Integer.valueOf(1), num);
     }
 
     @Test

@@ -52,5 +52,5 @@ public interface EmployeeDao {
      * @return Count of deleted employees.
      * @throws DataAccessException
      */
-    Long deleteEmployee(Long employeeId) throws DataAccessException;
+    Integer deleteEmployee(Long employeeId) throws DataAccessException;
 }

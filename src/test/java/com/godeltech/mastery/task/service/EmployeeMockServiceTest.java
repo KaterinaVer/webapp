@@ -77,10 +77,10 @@ public class EmployeeMockServiceTest {
 
     @Test
     public void deleteEmployeeTest() {
-        when(daoMock.deleteEmployee(anyLong())).thenReturn(2L);
+        when(daoMock.deleteEmployee(anyLong())).thenReturn(2);
 
-        Long id = service.deleteEmployee(2L);
+        Integer num = service.deleteEmployee(2L);
 
-        assertEquals(Long.valueOf(2), id);
+        assertEquals(Integer.valueOf(2), num);
     }
 }
