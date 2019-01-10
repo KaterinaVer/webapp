@@ -40,7 +40,7 @@ public interface EmployeeDao {
      * Update employee.
      *
      * @param employee
-     * @return nothing.
+     * @return void.
      * @throws DataAccessException
      */
     void updateEmployee(Employee employee) throws DataAccessException;

@@ -33,7 +33,7 @@ public interface EmployeeService {
      * Update employee.
      *
      * @param employee
-     * @return nothing.
+     * @return void.
      */
     void updateEmployee(Employee employee);
 
