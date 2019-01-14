@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,7 +37,7 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createEmployee(@RequestBody Employee employee, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> createEmployee(@Valid @RequestBody Employee employee, UriComponentsBuilder ucBuilder) {
         Long id = employeeService.addEmployee(employee);
 
         UriComponents uriComponent = ucBuilder.path("/employees/{id}").buildAndExpand(id);
@@ -45,7 +46,7 @@ public class EmployeeController {
 
     @PutMapping("/employees/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateEmployee(@PathVariable("id") Long id, @RequestBody  Employee employee) {
+    public void updateEmployee(@PathVariable("id") Long id, @Valid @RequestBody  Employee employee) {
         employee.setEmployeeId(id);
 
         employeeService.updateEmployee(employee);
