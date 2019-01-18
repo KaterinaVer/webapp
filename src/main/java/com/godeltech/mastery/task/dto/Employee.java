@@ -4,22 +4,30 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Employee {
 
     private Long employeeId;
+
     @Size(min = 3, max = 20)
     private String firstName;
+
     @Size(min = 3, max = 20)
     private String lastName;
+
     @Range(min = 1, max = 150)
     private Integer departmentId;
+
     @Size(min = 3, max = 20)
     private String jobTitle;
+
     @NotNull
     private Gender gender;
+
+    @Past
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
