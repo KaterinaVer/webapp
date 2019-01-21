@@ -1,0 +1,5 @@
+FROM postgres:latest
+ENV POSTGRES_DATABASE employeebd
+ENV POSTGRES_USER kate
+ENV POSTGRES_PASSWORD qwerty
+COPY /src/main/resources/*.sql /docker-entrypoint-initdb.d/

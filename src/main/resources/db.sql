@@ -1,0 +1,1 @@
+CREATE DATABASE employeebd WITH OWNER = kate

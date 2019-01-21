@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  webserver:
+    image: katever/webserver:latest
+    ports:
+      - 8080:8080
+  postgresql:
+    image:  katever/postgresql:latest
+    ports:
+      - 5432:5432
